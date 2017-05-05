@@ -1,0 +1,18 @@
+<template>
+  <Slider v-model="value" range></Slider>
+</template>
+
+<script>
+  import 'iview/dist/styles/iview.css';
+  export default {
+    data () {
+      return {
+        value: [20, 50]
+      }
+    }
+  }
+</script>
+
+<style>
+
+</style>
