@@ -1,6 +1,6 @@
 # multi-vue
 
-> A Vue.js project
+> A Vue.js 多页应用
 
 ## Build Setup
 
@@ -19,3 +19,12 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+参考
+https://github.com/jarvan4dev/vue-multi-page
+http://www.jianshu.com/p/acbff04b4096
+
+
+所有页面都写在module目录下，分别建自己的目录
+
