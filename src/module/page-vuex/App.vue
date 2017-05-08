@@ -18,7 +18,7 @@
   import Vue from 'vue'
   import iView from 'iview'
   import 'iview/dist/styles/iview.css';
-  import { mapState} from 'vuex'
+  import { mapState, mapMutations} from 'vuex'
   import {MUTATION_INCREMENT, MUTATION_DECREMENT} from './mutation-types'
 
   Vue.use(iView);
@@ -31,12 +31,16 @@
         ...mapState(['count'])
     },
     methods: {
-      increment () {
-        this.$store.commit(MUTATION_INCREMENT)
-      },
-      decrement () {
-        this.$store.commit(MUTATION_DECREMENT)
-      }
+//      increment () {
+//        this.$store.commit(MUTATION_INCREMENT)
+//      },
+//      decrement () {
+//        this.$store.commit(MUTATION_DECREMENT)
+//      },
+      //同上
+      ...mapMutations([
+        MUTATION_INCREMENT, MUTATION_DECREMENT // 映射 this.increment() 为 this.$store.commit('increment')
+      ]),
     }
   }
 </script>
