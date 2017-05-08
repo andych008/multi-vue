@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
+import {MUTATION_INCREMENT, MUTATION_DECREMENT} from './mutation-types'
 
 Vue.use(Vuex)
 
@@ -15,8 +16,8 @@ const store = new Vuex.Store({
     count: 0
   },
   mutations: {
-    increment: state => state.count++,
-    decrement: state => state.count--
+    [MUTATION_INCREMENT]: state => state.count++,
+    [MUTATION_DECREMENT]: state => state.count--
   }
 })
 
