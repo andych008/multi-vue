@@ -15,6 +15,11 @@ const store = new Vuex.Store({
   state: {
     count: 0
   },
+  getters: {
+    isOdd: state => {
+      return state.count%2!=0
+    }
+  },
   mutations: {
     [MUTATION_INCREMENT]: state => state.count++,
     [MUTATION_DECREMENT]: state => state.count--
