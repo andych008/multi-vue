@@ -13,35 +13,23 @@
 
 <script>
   import Vue from 'vue'
-  import Vuex from 'vuex'
   import iView from 'iview'
   import 'iview/dist/styles/iview.css';
 
   Vue.use(iView);
-  Vue.use(Vuex)
-
-  const store = new Vuex.Store({
-    state: {
-      count: 0
-    },
-    mutations: {
-      increment: state => state.count++,
-      decrement: state => state.count--
-    }
-  })
 
   export default {
     computed: {
       value () {
-        return store.state.count
+        return this.$store.state.count
       }
     },
     methods: {
       increment () {
-        store.commit('increment')
+        this.$store.commit('increment')
       },
       decrement () {
-        store.commit('decrement')
+        this.$store.commit('decrement')
       }
     }
   }
