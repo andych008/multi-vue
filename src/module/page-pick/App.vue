@@ -10,7 +10,7 @@
         <div class="form-group">
           <label>仓库</label>
           <!--:value.sync="val"-->
-          <v-select v-model="warehouseId" :options="warehouseMap"  options-label="name" options-value="id" showCount="true">
+          <v-select v-model="warehouseId" :options="warehouseMap"  options-label="name" options-value="id" @change="warehouseIdChanged">
           </v-select>
           <!--<select name="warehouseId" class="form-control" onchange="refreshData();">-->
             <!--<option v-for="warehouse in warehouseMap" :value="warehouse.id">-->
@@ -20,24 +20,20 @@
         </div>
         <div class="form-group">
           <label>查询维度</label>
-          <select name="searchBy" class="form-control" onchange="onSearchBy();">
+          <select v-model="searchBy" class="form-control" @change="onSearchBy">
             <option value="0">按天查</option>
             <option value="1">按月查</option>
           </select>
         </div>
 
         <div class="form-group" id="dateDiv">
-          <label for="dateString" class="" style="width:90px;">日期</label>
-          <div class="input-group date">
-            <input type="text" class="form-control" style="width:150px;" id="dateString" name="dateString"  placeholder="请选择" required="required"/>
-          </div>
+          <label>日期</label>
+          <datepicker v-model="dateString" format="yyyy-MM-dd" placeholder="请选择" type="text"></datepicker>
         </div>
 
         <div class="form-group" id="monthDiv">
-          <label for="monthString" class="" style="width:90px;">月份</label>
-          <div class="input-group date">
-            <input type="text" class="form-control" style="width:150px;" id="monthString" name="monthString"  placeholder="请选择" required="required"/>
-          </div>
+          <label>月份</label>
+          <datepicker v-model="monthString" :is-month="true" format="yyyy-MM" placeholder="请选择"></datepicker>
         </div>
 
         <div class="form-group">
@@ -64,31 +60,44 @@
 </template>
 
 <script>
+  import Datepicker from '@/components/Datepicker'
   import Vue from 'vue'
   import VueStrap from 'vue-strap'
+  import '@/js/vue-strap-lang.js'
   import '@/lib/bootstrap-3.3.5/css/bootstrap.min.css'
   import '@/lib/bootstrap-3.3.5/css/bootstrap-theme.css'
   import '@/lib/bootstrap-3.3.5/css/bootstrap-select.css'
   import '@/css/meicai-view-css.css'
-//  import '@/css/common.css'
   import '@/css/wms.css'
+  import '@/js/wms.js'
 
   export default {
     props: ['post'],
     data () {
       return {
         warehouseMap: [{
-          id:1,name:'北京1'
-        },{
-          id:2,name:'北京2'
-        },{
-          id:3,name:'北京3'
+          id: 1, name: '北京1'
+        }, {
+          id: 2, name: '北京2'
+        }, {
+          id: 3, name: '北京3'
         }],
-        warehouseId:1
+        warehouseId: 1,
+        searchBy: 0,
+        dateString: MCDateUtil.initAsDeliveryDate(),
+        monthString: MCDateUtil.getCurrnetMonth(),
       }
     },
     components: {
-      vSelect: VueStrap.select, 'v-option': VueStrap.option,
+      vSelect: VueStrap.select, 'VOption': VueStrap.option, Datepicker
+    },
+    methods: {
+      warehouseIdChanged(sel) {
+        console.log("warehouseIdChanged = %s",sel)
+      },
+      onSearchBy() {
+        console.log("onSearchBy")
+      }
     }
   }
 </script>
