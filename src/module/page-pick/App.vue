@@ -1,11 +1,11 @@
 <template>
-  <div id="main_tableObj" class="panel panel-default">
+  <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">加工盘盈统计表</h3>
     </div>
 
-    <div id = "home" class="panel-body tableObj-q">
-      <form id="formObj" class="form-inline" role="form" action="javascript:void(0);" onsubmit="tableObj.query(this);"
+    <div class="panel-body">
+      <form class="form-inline" role="form" action="javascript:void(0);" onsubmit="tableObj.query(this);"
             onkeydown="if(event.keyCode==13){return false;}" novalidate>
         <div class="form-group">
           <label>仓库</label>
@@ -28,7 +28,7 @@
 
         <div class="form-group" id="dateDiv">
           <label>日期</label>
-          <datepicker v-model="dateString" format="yyyy-MM-dd" placeholder="请选择" type="text"></datepicker>
+          <datepicker v-model="dateString" format="yyyy-MM-dd" placeholder="请选择"></datepicker>
         </div>
 
         <div class="form-group" id="monthDiv">
@@ -38,11 +38,11 @@
 
         <div class="form-group">
           <label>SKUID</label>
-          <input name="skuId" class="form-control"/>
+          <input name="skuId" class="form-control" type="text"/>
         </div>
         <div class="form-group">
           <label>商品名称</label>
-          <input name="skuName" style="width:180px" class="form-control"  placeholder="支持模糊查询商品名称"/>
+          <input name="skuName" class="form-control"  placeholder="支持模糊查询商品名称"/>
         </div>
         <div class="form-group">
           <label></label>
