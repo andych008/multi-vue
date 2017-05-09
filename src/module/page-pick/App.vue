@@ -9,29 +9,27 @@
             onkeydown="if(event.keyCode==13){return false;}" novalidate>
         <div class="form-group">
           <label>仓库</label>
-          <!--:value.sync="val"-->
-          <v-select v-model="warehouseId" :options="wareHouseMap"  options-label="name" options-value="id" @change="warehouseIdChanged" placeholder="请选择仓库">
-          </v-select>
-          <!--<select name="warehouseId" class="form-control" onchange="refreshData();">-->
-            <!--<option v-for="warehouse in wareHouseMap" :value="warehouse.id">-->
-              <!--{{warehouse.name}}-->
-            <!--</option>-->
-          <!--</select>-->
+          <select v-model="warehouseId" class="form-control" @change="warehouseIdChanged">
+            <option v-for="(text, val) in wareHouseMap" :value="val">
+              {{text}}
+            </option>
+          </select>
         </div>
+
         <div class="form-group">
           <label>查询维度</label>
-          <select v-model="searchBy" class="form-control" @change="onSearchBy">
+          <select v-model="searchBy" class="form-control">
             <option value="0">按天查</option>
             <option value="1">按月查</option>
           </select>
         </div>
 
-        <div class="form-group" id="dateDiv">
+        <div class="form-group" v-show="searchBy==0">
           <label>日期</label>
           <datepicker v-model="dateString" format="yyyy-MM-dd" placeholder="请选择"></datepicker>
         </div>
 
-        <div class="form-group" id="monthDiv">
+        <div class="form-group" v-show="searchBy==1">
           <label>月份</label>
           <datepicker v-model="monthString" :is-month="true" format="yyyy-MM" placeholder="请选择"></datepicker>
         </div>
@@ -40,14 +38,16 @@
           <label>SKUID</label>
           <input v-model="skuId" class="form-control"/>
         </div>
+
         <div class="form-group">
           <label>商品名称</label>
           <input v-model="skuName" class="form-control"  placeholder="支持模糊查询商品名称"/>
         </div>
+
         <div class="form-group">
           <label></label>
           <button type="submit" class="btn btn-primary" formaction="javascript:void(0);">查询</button>
-          <button type="reset" class="btn btn-warning">重置</button>
+          <button type="button" @click="resetForm" class="btn btn-warning">重置</button>
         </div>
       </form>
       <button id='allexport' type="button" class="btn btn-success">全部导出</button>
@@ -62,7 +62,7 @@
 <script>
   import Datepicker from '@/components/Datepicker'
   import Vue from 'vue'
-  import VueStrap from 'vue-strap'
+//  import VueStrap from 'vue-strap'
   import qs from 'qs'
   import axios from '@/js/axios-common';
   import '@/js/vue-strap-lang.js'
@@ -78,7 +78,7 @@
     data () {
       return {
         wareHouseMap: [],
-        warehouseId: '1',
+        warehouseId: '',
         searchBy: 0,
         skuId: '',
         skuName: '',
@@ -86,36 +86,33 @@
         monthString: MCDateUtil.getCurrnetMonth(),
       }
     },
-    components: {
-      vSelect: VueStrap.select, 'VOption': VueStrap.option, Datepicker
-    },
     created() {
-      this._init()
+      this._init(null)
+    },
+    components: {
+//      vSelect: VueStrap.select, 'VOption': VueStrap.option,
+      Datepicker
     },
     methods: {
-      _init() {
-        axios.post('/baseDataUtil/dataItem', qs.stringify({ 'bar': 123 }))
+      _init(warehouseId) {
+        axios.post('/baseDataUtil/dataItem', qs.stringify({warehouseId: warehouseId, type: "1"}))
             .then(res => {
           this.warehouseId = res.data.warehouseId
-          this.wareHouseMap = warehouseMap2Array(res.data.wareHouseMap)
+          this.wareHouseMap = res.data.wareHouseMap
         })
+      },
+      resetForm() {
+//        e.preventDefault()//如果type 为 reset
+        this.searchBy = 0
+        this.skuId = ''
+        this.skuName = ''
+        this.dateString = MCDateUtil.initAsDeliveryDate()
+        this.monthString = MCDateUtil.getCurrnetMonth()
       },
       warehouseIdChanged(sel) {
         console.log("warehouseIdChanged = %s",sel)
-      },
-      onSearchBy() {
-        console.log("onSearchBy")
       }
     }
-  }
-
-  function warehouseMap2Array(wareHouseMap) {
-    //JSON.stringify(objArr)
-    let objArr = []
-    for (const key in wareHouseMap) {
-      objArr.push({id: key, name: wareHouseMap[key]});
-    }
-    return objArr
   }
 </script>
 
