@@ -10,10 +10,10 @@
         <div class="form-group">
           <label>仓库</label>
           <!--:value.sync="val"-->
-          <v-select v-model="warehouseId" :options="warehouseMap"  options-label="name" options-value="id" @change="warehouseIdChanged">
+          <v-select v-model="warehouseId" :options="wareHouseMap"  options-label="name" options-value="id" @change="warehouseIdChanged" placeholder="请选择仓库">
           </v-select>
           <!--<select name="warehouseId" class="form-control" onchange="refreshData();">-->
-            <!--<option v-for="warehouse in warehouseMap" :value="warehouse.id">-->
+            <!--<option v-for="warehouse in wareHouseMap" :value="warehouse.id">-->
               <!--{{warehouse.name}}-->
             <!--</option>-->
           <!--</select>-->
@@ -38,11 +38,11 @@
 
         <div class="form-group">
           <label>SKUID</label>
-          <input name="skuId" class="form-control" type="text"/>
+          <input v-model="skuId" class="form-control"/>
         </div>
         <div class="form-group">
           <label>商品名称</label>
-          <input name="skuName" class="form-control"  placeholder="支持模糊查询商品名称"/>
+          <input v-model="skuName" class="form-control"  placeholder="支持模糊查询商品名称"/>
         </div>
         <div class="form-group">
           <label></label>
@@ -63,6 +63,8 @@
   import Datepicker from '@/components/Datepicker'
   import Vue from 'vue'
   import VueStrap from 'vue-strap'
+  import qs from 'qs'
+  import axios from '@/js/axios-common';
   import '@/js/vue-strap-lang.js'
   import '@/lib/bootstrap-3.3.5/css/bootstrap.min.css'
   import '@/lib/bootstrap-3.3.5/css/bootstrap-theme.css'
@@ -75,15 +77,11 @@
     props: ['post'],
     data () {
       return {
-        warehouseMap: [{
-          id: 1, name: '北京1'
-        }, {
-          id: 2, name: '北京2'
-        }, {
-          id: 3, name: '北京3'
-        }],
-        warehouseId: 1,
+        wareHouseMap: [],
+        warehouseId: '1',
         searchBy: 0,
+        skuId: '',
+        skuName: '',
         dateString: MCDateUtil.initAsDeliveryDate(),
         monthString: MCDateUtil.getCurrnetMonth(),
       }
@@ -91,7 +89,17 @@
     components: {
       vSelect: VueStrap.select, 'VOption': VueStrap.option, Datepicker
     },
+    created() {
+      this._init()
+    },
     methods: {
+      _init() {
+        axios.post('/baseDataUtil/dataItem', qs.stringify({ 'bar': 123 }))
+            .then(res => {
+          this.warehouseId = res.data.warehouseId
+          this.wareHouseMap = warehouseMap2Array(res.data.wareHouseMap)
+        })
+      },
       warehouseIdChanged(sel) {
         console.log("warehouseIdChanged = %s",sel)
       },
@@ -99,6 +107,15 @@
         console.log("onSearchBy")
       }
     }
+  }
+
+  function warehouseMap2Array(wareHouseMap) {
+    //JSON.stringify(objArr)
+    let objArr = []
+    for (const key in wareHouseMap) {
+      objArr.push({id: key, name: wareHouseMap[key]});
+    }
+    return objArr
   }
 </script>
 
