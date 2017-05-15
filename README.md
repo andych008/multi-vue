@@ -24,6 +24,12 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 ## 参考
 https://github.com/jarvan4dev/vue-multi-page
 http://www.jianshu.com/p/acbff04b4096
+https://aotu.io/notes/2016/10/13/vue2/
+http://www.imooc.com/article/17042?block_id=tuijian_wz   Vue2实战 iView后台管理系统解决方案
+https://juejin.im/post/5880108f8d6d810058ae0def     2016我的心路历程：从 Vue 到 Webpack 到 iView | 掘金技术征文
+                                                    
+
+
 
 ## 多页面
 所有页面都写在module目录下，分别建自己的目录
